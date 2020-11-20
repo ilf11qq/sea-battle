@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Board from './components/Board/'
+import './components/utils/initialize'
 import './App.css';
+import initiliaze from './components/utils/initialize';
+
 
 function App() {
-  const [arr, setArr] = useState(new Array(10).fill(0).map(el => new Array(10).fill(0)));
-  const changeArr = (value) => {
-    const arr2 = arr.slice();
-    arr2[Math.floor(value/10)][value % 10] = -1;
+  const [arr, setArr] = useState(initiliaze(10))
+  const changeArr = (row, column) => {
+    const arr2 = [...arr]
+    arr2[row][column].isClicked = true;
     setArr(arr2);
   }
   return (
