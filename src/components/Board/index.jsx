@@ -1,11 +1,23 @@
+import { useEffect, useState } from 'react'
 import Square from '../Square'
 import './style.scss'
-
 const Board = (props) => {
-    const handleClick = (row, column) => {
-        props.changeArr(row, column);
+    const [board, setBoard] = useState(props.arr)
+    const [items, setItems] = useState(20)
+    const changeBoard = (row, column) => {
+        const tempBoard = [...board]
+        tempBoard[row][column].isClicked = true;
+        if (!(tempBoard[row][column].isEmpty)) {
+            setItems(items - 1)
+        }
+        setBoard(tempBoard);
     }
-    const list = props.arr.flat().map(item => <Square elem={item} key={item.row.toString() + item.column.toString()} handleClick={handleClick}/>)
+    useEffect (() => {
+        if (items < 1) {
+            props.end();
+        }
+    })
+    const list = props.arr.flat().map(item => <Square elem={item} key={item.row.toString() + item.column.toString()} handleClick={changeBoard}/>)
     return (
         <div className='field' >{list}</div>
     )
